@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worker Chat App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            background-color: #121212;
+            color: white;
+            margin: 0;
+        }
+        .sidebar {
+            width: 250px;
+            background: #222;
+            padding: 10px;
+            height: 100vh;
+            transition: 0.3s;
+            position: fixed;
+        }
+        .sidebar button {
+            width: 100%;
+            margin: 5px 0;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            background: yellow;
+        }
+        .hidden {
+            display: none;
+        }
+        .main {
+            flex: 1;
+            padding: 20px;
+            margin-left: 270px;
+            width: calc(100% - 270px);
+        }
+        #chat-box {
+            height: 400px;
+            border: 1px solid #444;
+            padding: 10px;
+            overflow-y: auto;
+            background: black;
+        }
+        button {
+            background: yellow;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+        <button onclick="toggleSidebar()">❌ Close Sidebar</button>
+        <h2>📌 28 State Groups</h2>
+        <ul id="group-list">
+            <li onclick="openGroup('Andhra Pradesh')">Andhra Pradesh</li>
+            <li onclick="openGroup('Bihar')">Bihar</li>
+            <li onclick="openGroup('Goa')">Goa</li>
+            <li onclick="openGroup('Gujarat')">Gujarat</li>
+            <li onclick="openGroup('Maharashtra')">Maharashtra</li>
+            <li onclick="openGroup('Punjab')">Punjab</li>
+            <li onclick="openGroup('Rajasthan')">Rajasthan</li>
+            <li onclick="openGroup('Tamil Nadu')">Tamil Nadu</li>
+            <li onclick="openGroup('Uttar Pradesh')">Uttar Pradesh</li>
+        </ul>
+
+        <button onclick="showApplyForSeva()">📝 Apply for Seva</button>
+        <button onclick="showLeaderboard()">🏆 Leaderboard</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+        <button onclick="toggleSidebar()">☰ Open Sidebar</button>
+        
+        <div id="chat-section">
+            <h2 id="group-title">Welcome!</h2>
+            <div id="chat-box"></div>
+        </div>
+
+        <div id="apply-for-seva" class="hidden">
+            <h2>📝 Apply for Seva</h2>
+            <input type="text" id="name" placeholder="Your Name">
+            <select id="seva-type">
+                <option value="single">Single</option>
+                <option value="team">Team</option>
+            </select>
+            <input type="text" id="seva-category" placeholder="Seva Category">
+            <input type="text" id="seva-state" placeholder="State for Seva">
+            <input type="text" id="phone" placeholder="Phone Number">
+            <button onclick="applyForSeva()">Apply</button>
+        </div>
+
+        <div id="leaderboard" class="hidden">
+            <h2>🏆 Seva Leaderboard</h2>
+            <ul id="leaderboard-list"></ul>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            let sidebar = document.getElementById("sidebar");
+            sidebar.style.display = sidebar.style.display === "none" ? "block" : "none";
+        }
+
+        function openGroup(groupName) {
+            document.getElementById("group-title").innerText = groupName + " Chat";
+            document.getElementById("chat-section").style.display = "block";
+            document.getElementById("apply-for-seva").style.display = "none";
+            document.getElementById("leaderboard").style.display = "none";
+        }
+
+        function showApplyForSeva() {
+            document.getElementById("chat-section").style.display = "none";
+            document.getElementById("apply-for-seva").style.display = "block";
+            document.getElementById("leaderboard").style.display = "none";
+        }
+
+        function showLeaderboard() {
+            document.getElementById("chat-section").style.display = "none";
+            document.getElementById("apply-for-seva").style.display = "none";
+            document.getElementById("leaderboard").style.display = "block";
+        }
+
+        function applyForSeva() {
+            let name = document.getElementById("name").value;
+            let sevaType = document.getElementById("seva-type").value;
+            let sevaCategory = document.getElementById("seva-category").value;
+            let sevaState = document.getElementById("seva-state").value;
+            let phone = document.getElementById("phone").value;
+
+            if (name && sevaState) {
+                // Send message to chat
+                let chatBox = document.getElementById("chat-box");
+                let newMessage = document.createElement("div");
+                newMessage.innerText = `${name} has applied for ${sevaCategory} seva in ${sevaState}!`;
+                chatBox.appendChild(newMessage);
+
+                // Update leaderboard
+                let leaderboardList = document.getElementById("leaderboard-list");
+                let newEntry = document.createElement("li");
+                newEntry.innerText = `${name} - ${sevaCategory} - ${sevaState}`;
+                leaderboardList.appendChild(newEntry);
+
+                alert("Seva Application Submitted!");
+            } else {
+                alert("Please fill all required fields.");
+            }
+        }
+    </script>
+
+</body>
+</html>
