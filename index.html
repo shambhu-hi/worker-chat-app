@@ -1,191 +1,152 @@
-<!DOCTYPE html>
+\<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Worker Chat App</title>
-    <link rel="stylesheet" href="styles.css">
     <style>
-        /* Sidebar Styles */
-        #sidebar {
-            width: 250px;
-            height: 100vh;
-            background-color: black;
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            background-color: #121212;
             color: white;
+            margin: 0;
+        }
+        .sidebar {
+            width: 250px;
+            background: #222;
+            padding: 10px;
+            height: 100vh;
+            transition: 0.3s;
+            position: fixed;
+            overflow-y: auto;
+        }
+        .sidebar button {
+            width: 100%;
+            margin: 5px 0;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            background: yellow;
+        }
+        .hidden {
+            display: none;
+        }
+        .main {
+            flex: 1;
+            padding: 20px;
+            margin-left: 270px;
+            width: calc(100% - 270px);
+        }
+        #chat-box {
+            height: 400px;
+            border: 1px solid #444;
             padding: 10px;
             overflow-y: auto;
-            position: fixed;
-            left: 0;
-            top: 0;
+            background: black;
         }
-        #sidebar ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        #sidebar ul li {
+        button {
+            background: yellow;
             padding: 10px;
-            border-bottom: 1px solid white;
-            cursor: pointer;
-        }
-        /* Apply for Seva Button */
-        #apply-button {
-            background-color: yellow;
-            color: black;
-            font-size: 16px;
-            padding: 15px;
             border: none;
-            width: 100%;
             cursor: pointer;
         }
-        /* Apply for Seva Modal */
-        #seva-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
+        input, select {
             width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
-            display: none;
-            justify-content: center;
-            align-items: center;
-        }
-        #seva-form {
-            background-color: #222;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-        }
-        input, select, button {
-            margin: 10px;
-            padding: 10px;
-            width: 80%;
+            padding: 8px;
+            margin: 5px 0;
         }
     </style>
 </head>
 <body>
 
-    <!-- Sidebar with 28 State Groups -->
-    <div id="sidebar">
-        <h3>State Groups</h3>
-        <ul>
-            <li>Andhra Pradesh</li>
-            <li>Arunachal Pradesh</li>
-            <li>Assam</li>
-            <li>Bihar</li>
-            <li>Chhattisgarh</li>
-            <li>Goa</li>
-            <li>Gujarat</li>
-            <li>Haryana</li>
-            <li>Himachal Pradesh</li>
-            <li>Jharkhand</li>
-            <li>Karnataka</li>
-            <li>Kerala</li>
-            <li>Madhya Pradesh</li>
-            <li>Maharashtra</li>
-            <li>Manipur</li>
-            <li>Meghalaya</li>
-            <li>Mizoram</li>
-            <li>Nagaland</li>
-            <li>Odisha</li>
-            <li>Punjab</li>
-            <li>Rajasthan</li>
-            <li>Sikkim</li>
-            <li>Tamil Nadu</li>
-            <li>Telangana</li>
-            <li>Tripura</li>
-            <li>Uttar Pradesh</li>
-            <li>Uttarakhand</li>
-            <li>West Bengal</li>
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+        <button onclick="toggleSidebar()">❌ Close Sidebar</button>
+        <h2>📌 28 State Groups</h2>
+        <ul id="group-list">
+            <li onclick="openGroup('Andhra Pradesh')">Andhra Pradesh</li>
+            <li onclick="openGroup('Arunachal Pradesh')">Arunachal Pradesh</li>
+            <li onclick="openGroup('Assam')">Assam</li>
+            <li onclick="openGroup('Bihar')">Bihar</li>
+            <li onclick="openGroup('Chhattisgarh')">Chhattisgarh</li>
+            <li onclick="openGroup('Goa')">Goa</li>
+            <li onclick="openGroup('Gujarat')">Gujarat</li>
+            <li onclick="openGroup('Haryana')">Haryana</li>
+            <li onclick="openGroup('Himachal Pradesh')">Himachal Pradesh</li>
+            <li onclick="openGroup('Jharkhand')">Jharkhand</li>
+            <li onclick="openGroup('Karnataka')">Karnataka</li>
+            <li onclick="openGroup('Kerala')">Kerala</li>
+            <li onclick="openGroup('Madhya Pradesh')">Madhya Pradesh</li>
+            <li onclick="openGroup('Maharashtra')">Maharashtra</li>
+            <li onclick="openGroup('Manipur')">Manipur</li>
+            <li onclick="openGroup('Meghalaya')">Meghalaya</li>
+            <li onclick="openGroup('Mizoram')">Mizoram</li>
+            <li onclick="openGroup('Nagaland')">Nagaland</li>
+            <li onclick="openGroup('Odisha')">Odisha</li>
+            <li onclick="openGroup('Punjab')">Punjab</li>
+            <li onclick="openGroup('Rajasthan')">Rajasthan</li>
+            <li onclick="openGroup('Sikkim')">Sikkim</li>
+            <li onclick="openGroup('Tamil Nadu')">Tamil Nadu</li>
+            <li onclick="openGroup('Telangana')">Telangana</li>
+            <li onclick="openGroup('Tripura')">Tripura</li>
+            <li onclick="openGroup('Uttar Pradesh')">Uttar Pradesh</li>
+            <li onclick="openGroup('Uttarakhand')">Uttarakhand</li>
+            <li onclick="openGroup('West Bengal')">West Bengal</li>
         </ul>
-        <!-- Apply for Seva Button -->
-        <button id="apply-button">Apply for Seva</button>
+
+        <button onclick="showApplyForSeva()">📝 Apply for Seva</button>
+        <button onclick="showLeaderboard()">🏆 Leaderboard</button>
     </div>
 
-    <!-- Apply for Seva Modal -->
-    <div id="seva-modal">
-        <div id="seva-form">
-            <h2>Apply for Seva</h2>
-            <label for="state">State:</label>
-            <select id="state">
-                <option value="Maharashtra">Maharashtra</option>
-                <option value="Gujarat">Gujarat</option>
-                <option value="Bihar">Bihar</option>
-                <option value="Karnataka">Karnataka</option>
-                <option value="Rajasthan">Rajasthan</option>
+    
+    <script>
+        function showApplyForSeva() {
+            document.getElementById("chat-section").classList.add("hidden");
+            document.getElementById("leaderboard").classList.add("hidden");
+            document.getElementById("apply-for-seva").classList.remove("hidden");
+        }
+    
+        function showLeaderboard() {
+            document.getElementById("chat-section").classList.add("hidden");
+            document.getElementById("apply-for-seva").classList.add("hidden");
+            document.getElementById("leaderboard").classList.remove("hidden");
+        }
+    </script>
+    
+
+    <!-- Main Content -->
+    <div class="main">
+        <button onclick="toggleSidebar()">☰ Open Sidebar</button>
+        
+        <div id="chat-section">
+            <h2 id="group-title">Welcome!</h2>
+            <div id="chat-box"></div>
+        </div>
+
+        <div id="apply-for-seva" class="hidden">
+            <h2>📝 Apply for Seva</h2>
+            <input type="text" id="name" placeholder="Your Name">
+            <select id="seva-type">
+                <option value="single">Single</option>
+                <option value="team">Team</option>
             </select>
-            <br>
-            <label for="duration">Seva Duration:</label>
-            <input type="text" id="duration" placeholder="Enter duration">
-            <br>
-            <label for="name">Your Name:</label>
-            <input type="text" id="name" placeholder="Enter your name">
-            <br>
-            <label for="team">Team Members:</label>
-            <input type="text" id="team" placeholder="Single / Team">
-            <br>
-            <button id="submit-seva">Submit</button>
-            <button id="close-seva">Close</button>
+            <input type="text" id="seva-category" placeholder="Seva Category">
+            <input type="text" id="seva-state" placeholder="State for Seva">
+            <input type="text" id="district" placeholder="District">
+            <input type="text" id="taluka" placeholder="Taluka">
+            <input type="text" id="phone" placeholder="Phone Number">
+            <input type="text" id="address" placeholder="Full Address">
+            <button onclick="applyForSeva()">Apply</button>
+        </div>
+
+        <div id="leaderboard" class="hidden">
+            <h2>🏆 Seva Leaderboard</h2>
+            <ul id="leaderboard-list"></ul>
         </div>
     </div>
 
-    <script>
-        // Run script after HTML loads
-        document.addEventListener("DOMContentLoaded", function() {
-            console.log("✅ seva.js Loaded");
-
-            // Get elements
-            const applyBtn = document.getElementById("apply-button");
-            const sevaModal = document.getElementById("seva-modal");
-            const submitSeva = document.getElementById("submit-seva");
-            const closeSeva = document.getElementById("close-seva");
-
-            if (!applyBtn) {
-                console.error("❌ Error: Apply button not found!");
-                return;
-            }
-
-            // Open Seva Form
-            applyBtn.addEventListener("click", function() {
-                sevaModal.style.display = "flex";
-                console.log("📢 Seva Form Opened");
-            });
-
-            // Close Seva Form
-            closeSeva.addEventListener("click", function() {
-                sevaModal.style.display = "none";
-                console.log("📢 Seva Form Closed");
-            });
-
-            // Function to Apply for Seva
-            function applyForSeva() {
-                const state = document.getElementById("state").value;
-                const duration = document.getElementById("duration").value;
-                const name = document.getElementById("name").value;
-                const team = document.getElementById("team").value;
-
-                if (!state || !duration || !name || !team) {
-                    alert("❌ Please fill all details!");
-                    return;
-                }
-
-                console.log(`✅ Seva Applied: State=${state}, Duration=${duration}, Name=${name}, Team=${team}`);
-
-                // Simulate sending data (Replace with Firebase logic)
-                alert(`✅ Seva Applied for ${state} by ${name} for ${duration}!`);
-
-                // Hide the form after submission
-                sevaModal.style.display = "none";
-            }
-
-            // Attach applyForSeva function to Submit button
-            if (submitSeva) {
-                submitSeva.addEventListener("click", applyForSeva);
-            } else {
-                console.error("❌ Error: Submit button not found!");
-            }
-        });
-    </script>
+    <script type="module" src="seva.js"></script>
 
 </body>
 </html>
