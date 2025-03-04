@@ -20,6 +20,8 @@ const db = getFirestore(app);
 
 // Function to apply for Seva
 async function applyForSeva() {
+    console.log("📢 applyForSeva() called!"); // Debug log
+
     const name = document.getElementById("name").value.trim();
     const sevaType = document.getElementById("seva-type").value;
     const sevaCategory = document.getElementById("seva-category").value.trim();
@@ -30,13 +32,15 @@ async function applyForSeva() {
     const address = document.getElementById("address").value.trim();
 
     if (!name || !sevaCategory || !sevaState) {
+        console.error("⚠️ Missing required fields!");
         alert("⚠️ Please fill in all required fields!");
         return;
     }
 
+    console.log("✅ All fields filled. Submitting data...");
+
     try {
-        // Store application in Firestore
-        await addDoc(collection(db, "sevaApplications"), {
+        const docRef = await addDoc(collection(db, "sevaApplications"), {
             name,
             sevaType,
             sevaCategory,
@@ -48,40 +52,12 @@ async function applyForSeva() {
             timestamp: serverTimestamp()
         });
 
+        console.log("✅ Seva application added! Document ID:", docRef.id);
         alert("✅ Seva application submitted successfully!");
-        document.getElementById("apply-for-seva").reset(); // Clear form after submission
-        showLeaderboard(); // Refresh leaderboard after submission
+        document.getElementById("seva-form").reset();
+        showLeaderboard();
     } catch (error) {
-        console.error("Error applying for Seva:", error);
-        alert("❌ Error submitting Seva application. Please try again.");
+        console.error("❌ Firestore error:", error);
+        alert("❌ Error submitting Seva application. Check console.");
     }
 }
-
-// Function to display applications in the leaderboard
-async function showLeaderboard() {
-    document.getElementById("chat-section").classList.add("hidden");
-    document.getElementById("apply-for-seva").classList.add("hidden");
-    document.getElementById("leaderboard").classList.remove("hidden");
-
-    const leaderboardList = document.getElementById("leaderboard-list");
-    leaderboardList.innerHTML = "";
-
-    try {
-        const querySnapshot = await getDocs(collection(db, "sevaApplications"));
-
-        querySnapshot.forEach((doc, index) => {
-            let data = doc.data();
-            let listItem = document.createElement("li");
-            listItem.innerHTML = `<b>${index + 1}. ${data.name}</b> - ${data.sevaCategory} (${data.sevaState}) <br>📅 ${new Date(data.timestamp?.toDate()).toLocaleString()}`;
-            leaderboardList.appendChild(listItem);
-        });
-    } catch (error) {
-        console.error("Error fetching leaderboard:", error);
-        alert("❌ Error loading leaderboard.");
-    }
-}
-
-// ✅ Attach event listener since `type="module"` doesn't allow inline JS
-document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("apply-btn").addEventListener("click", applyForSeva);
-});
