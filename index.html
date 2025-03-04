@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+\<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -98,6 +98,22 @@
         <button onclick="showApplyForSeva()">📝 Apply for Seva</button>
         <button onclick="showLeaderboard()">🏆 Leaderboard</button>
     </div>
+
+    
+    <script>
+        function showApplyForSeva() {
+            document.getElementById("chat-section").classList.add("hidden");
+            document.getElementById("leaderboard").classList.add("hidden");
+            document.getElementById("apply-for-seva").classList.remove("hidden");
+        }
+    
+        function showLeaderboard() {
+            document.getElementById("chat-section").classList.add("hidden");
+            document.getElementById("apply-for-seva").classList.add("hidden");
+            document.getElementById("leaderboard").classList.remove("hidden");
+        }
+    </script>
+    
 
     <!-- Main Content -->
     <div class="main">
