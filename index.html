@@ -1,4 +1,4 @@
-\<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -65,55 +65,14 @@
         <button onclick="toggleSidebar()">❌ Close Sidebar</button>
         <h2>📌 28 State Groups</h2>
         <ul id="group-list">
-            <li onclick="openGroup('Andhra Pradesh')">Andhra Pradesh</li>
-            <li onclick="openGroup('Arunachal Pradesh')">Arunachal Pradesh</li>
-            <li onclick="openGroup('Assam')">Assam</li>
-            <li onclick="openGroup('Bihar')">Bihar</li>
-            <li onclick="openGroup('Chhattisgarh')">Chhattisgarh</li>
-            <li onclick="openGroup('Goa')">Goa</li>
-            <li onclick="openGroup('Gujarat')">Gujarat</li>
-            <li onclick="openGroup('Haryana')">Haryana</li>
-            <li onclick="openGroup('Himachal Pradesh')">Himachal Pradesh</li>
-            <li onclick="openGroup('Jharkhand')">Jharkhand</li>
-            <li onclick="openGroup('Karnataka')">Karnataka</li>
-            <li onclick="openGroup('Kerala')">Kerala</li>
-            <li onclick="openGroup('Madhya Pradesh')">Madhya Pradesh</li>
             <li onclick="openGroup('Maharashtra')">Maharashtra</li>
-            <li onclick="openGroup('Manipur')">Manipur</li>
-            <li onclick="openGroup('Meghalaya')">Meghalaya</li>
-            <li onclick="openGroup('Mizoram')">Mizoram</li>
-            <li onclick="openGroup('Nagaland')">Nagaland</li>
-            <li onclick="openGroup('Odisha')">Odisha</li>
-            <li onclick="openGroup('Punjab')">Punjab</li>
-            <li onclick="openGroup('Rajasthan')">Rajasthan</li>
-            <li onclick="openGroup('Sikkim')">Sikkim</li>
-            <li onclick="openGroup('Tamil Nadu')">Tamil Nadu</li>
-            <li onclick="openGroup('Telangana')">Telangana</li>
-            <li onclick="openGroup('Tripura')">Tripura</li>
+            <li onclick="openGroup('Gujarat')">Gujarat</li>
             <li onclick="openGroup('Uttar Pradesh')">Uttar Pradesh</li>
-            <li onclick="openGroup('Uttarakhand')">Uttarakhand</li>
-            <li onclick="openGroup('West Bengal')">West Bengal</li>
         </ul>
 
         <button onclick="showApplyForSeva()">📝 Apply for Seva</button>
         <button onclick="showLeaderboard()">🏆 Leaderboard</button>
     </div>
-
-    
-    <script>
-        function showApplyForSeva() {
-            document.getElementById("chat-section").classList.add("hidden");
-            document.getElementById("leaderboard").classList.add("hidden");
-            document.getElementById("apply-for-seva").classList.remove("hidden");
-        }
-    
-        function showLeaderboard() {
-            document.getElementById("chat-section").classList.add("hidden");
-            document.getElementById("apply-for-seva").classList.add("hidden");
-            document.getElementById("leaderboard").classList.remove("hidden");
-        }
-    </script>
-    
 
     <!-- Main Content -->
     <div class="main">
@@ -126,18 +85,20 @@
 
         <div id="apply-for-seva" class="hidden">
             <h2>📝 Apply for Seva</h2>
-            <input type="text" id="name" placeholder="Your Name">
-            <select id="seva-type">
-                <option value="single">Single</option>
-                <option value="team">Team</option>
-            </select>
-            <input type="text" id="seva-category" placeholder="Seva Category">
-            <input type="text" id="seva-state" placeholder="State for Seva">
-            <input type="text" id="district" placeholder="District">
-            <input type="text" id="taluka" placeholder="Taluka">
-            <input type="text" id="phone" placeholder="Phone Number">
-            <input type="text" id="address" placeholder="Full Address">
-            <button onclick="applyForSeva()">Apply</button>
+            <form id="seva-form">
+                <input type="text" id="name" placeholder="Your Name">
+                <select id="seva-type">
+                    <option value="single">Single</option>
+                    <option value="team">Team</option>
+                </select>
+                <input type="text" id="seva-category" placeholder="Seva Category">
+                <input type="text" id="seva-state" placeholder="State for Seva">
+                <input type="text" id="district" placeholder="District">
+                <input type="text" id="taluka" placeholder="Taluka">
+                <input type="text" id="phone" placeholder="Phone Number">
+                <input type="text" id="address" placeholder="Full Address">
+                <button type="button" id="apply-btn">Apply</button>
+            </form>
         </div>
 
         <div id="leaderboard" class="hidden">
