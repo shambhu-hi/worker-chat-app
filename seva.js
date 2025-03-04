@@ -1,3 +1,4 @@
+console.log("Seva script loaded!");
 // Firebase Configuration
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
@@ -82,3 +83,5 @@ function loadLeaderboard() {
         leaderboardList.appendChild(listItem);
     });
 }
+window.applyForSeva = applyForSeva;
+
