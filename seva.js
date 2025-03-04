@@ -1,6 +1,6 @@
 // Firebase Configuration
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 
 // Firebase Config
 const firebaseConfig = {
@@ -20,17 +20,17 @@ const db = getFirestore(app);
 
 // Function to apply for Seva
 async function applyForSeva() {
-    const name = document.getElementById("name").value;
+    const name = document.getElementById("name").value.trim();
     const sevaType = document.getElementById("seva-type").value;
-    const sevaCategory = document.getElementById("seva-category").value;
-    const sevaState = document.getElementById("seva-state").value;
-    const district = document.getElementById("district").value;
-    const taluka = document.getElementById("taluka").value;
-    const phone = document.getElementById("phone").value;
-    const address = document.getElementById("address").value;
+    const sevaCategory = document.getElementById("seva-category").value.trim();
+    const sevaState = document.getElementById("seva-state").value.trim();
+    const district = document.getElementById("district").value.trim();
+    const taluka = document.getElementById("taluka").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const address = document.getElementById("address").value.trim();
 
     if (!name || !sevaCategory || !sevaState) {
-        alert("Please fill in all required fields!");
+        alert("⚠️ Please fill in all required fields!");
         return;
     }
 
@@ -49,6 +49,7 @@ async function applyForSeva() {
         });
 
         alert("✅ Seva application submitted successfully!");
+        document.getElementById("apply-for-seva").reset(); // Clear form after submission
         showLeaderboard(); // Refresh leaderboard after submission
     } catch (error) {
         console.error("Error applying for Seva:", error);
@@ -80,3 +81,7 @@ async function showLeaderboard() {
     }
 }
 
+// ✅ Attach event listener since `type="module"` doesn't allow inline JS
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("apply-btn").addEventListener("click", applyForSeva);
+});
